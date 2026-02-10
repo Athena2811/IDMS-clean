@@ -1,0 +1,72 @@
+.room-page {
+  padding: 50px;
+  background: #f8f8f8;
+  min-height: 100vh;
+}
+
+.room-page h1 {
+  font-size: 34px;
+  color: #1f2937;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  margin-top: 50px;
+}
+
+.room-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.room-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.room-card.selected {
+  border-color: #c9a46a;
+  background: #fffaf0;
+}
+
+.room-card img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.room-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #1f2937;
+}
+
+.continue-btn {
+  margin-top: 60px;
+  padding: 14px 44px;
+  font-size: 16px;
+  border-radius: 999px;
+  border: none;
+  background: #1f2937;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continue-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
