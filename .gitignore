@@ -1,0 +1,6 @@
+# environment variables
+.env
+
+
+# django
+settings.py
