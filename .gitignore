@@ -1,31 +1,18 @@
-# =====================
-# ENV & SECRETS
-# =====================
+# ===== SECRETS =====
 .env
+settings.py
 
-# =====================
-# PYTHON
-# =====================
+# ===== PYTHON =====
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
 db.sqlite3
 
-# =====================
-# DJANGO
-# =====================
-local_settings.py
-
-# =====================
-# NODE / FRONTEND
-# =====================
+# ===== NODE =====
 node_modules/
 dist/
 
-# =====================
-# OS
-# =====================
+# ===== OS =====
 .DS_Store
 Thumbs.db
