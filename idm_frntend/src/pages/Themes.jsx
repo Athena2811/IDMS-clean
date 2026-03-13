@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/themes.css";
 
 const themes = [
@@ -26,20 +26,31 @@ const themes = [
 
 export default function Themes() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { roomTypeId, selectedItems, selectedMaterials } =
+    location.state || {};
+
   const [selectedTheme, setSelectedTheme] = useState(null);
 
   const handleContinue = () => {
     if (!selectedTheme) return;
-    navigate(`/items/${selectedTheme}`);
+
+    navigate("/generate", {
+      state: {
+        roomTypeName:location.state.roomTypeName,
+        themeName: themes.find(t => t.id === selectedTheme)?.name || null,
+      },
+    });
   };
 
   return (
-    <div className="themes-wrapper">
+    <div className="themes-container">
       <div className="themes-header">
-        <h1>Choose Your Style</h1>
-        <p>Step 2 of 4 · Select a design theme</p>
-      </div>
-
+       <div className="themes-header">
+  <h1>Choose Your Style</h1>
+  <p>Select a theme that matches your interior vision</p>
+</div>
       <div className="themes-grid">
         {themes.map((theme, index) => (
           <motion.div
@@ -61,14 +72,23 @@ export default function Themes() {
           </motion.div>
         ))}
       </div>
-
+      
+        <div className="bottom-nav">
+  <button
+    className="back-btn"
+    onClick={() => navigate("/room-select")}
+  >
+    ← Back to Rooms
+  </button>
+</div>
       <button
         className="themes-continue"
         disabled={!selectedTheme}
         onClick={handleContinue}
       >
-        Continue →
+        Generate Design →
       </button>
+    </div>
     </div>
   );
 }

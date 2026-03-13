@@ -1,79 +1,68 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import "../styles/roomSelect.css";
+import "../styles/RoomSelect.css";
 
-
-const rooms = [
-  { id: "bedroom", name: "Bedroom", icon: "/room-icons/bedroom.png" },
-  { id: "living", name: "Living Room", icon: "/room-icons/living.png" },
-  { id: "kitchen", name: "Kitchen", icon: "/room-icons/kitchen.png" },
-  { id: "office", name: "Office", icon: "/room-icons/office.png" },
-  { id: "custom", name: "Custom Room", icon: "/room-icons/custom.png" },
-];
-
-export default function RoomSelect() {
-  const [selectedRoom, setSelectedRoom] = useState(null);
+const RoomSelect = () => {
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleContinue = () => {
-    if (!selectedRoom) return;
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/room_types/"
+        );
 
-    localStorage.setItem("room", selectedRoom);
+        setRooms(response.data);
+      } catch (err) {
+        console.error("Error fetching rooms:", err);
+        setError("Failed to load rooms.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // IMPORTANT LOGIC
-    if (selectedRoom === "custom") {
-      navigate("/custom-ai"); // custom AI-only page
-    } else {
-      navigate("/themes"); // normal flow
-    }
+    fetchRooms();
+  }, []);
+
+  const handleSelect = (room) => {
+   navigate("/themes", {
+  state: {
+    roomTypeName: room.name
+  }
+});
   };
 
-  return (
-    <div className="room-page">
-      <motion.h1
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        Select Your Room
-      </motion.h1>
 
-      <motion.p
-        className="subtitle"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        Choose the room you want to redesign
-      </motion.p>
+  if (loading) return <div className="status">Loading rooms...</div>;
+  if (error) return <div className="status error">{error}</div>;
+
+  return (
+    <div className="room-select-container">
+      <h2 className="title">Choose the space you want to redesign</h2>
 
       <div className="room-grid">
-        {rooms.map((room, index) => (
-          <motion.div
+        {rooms.map((room) => (
+          <div
             key={room.id}
-            className={`room-card ${
-              selectedRoom === room.id ? "selected" : ""
-            }`}
-            onClick={() => setSelectedRoom(room.id)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
+            className="room-card"
+            onClick={() => handleSelect(room)}
           >
-            <img src={room.icon} alt={room.name} />
+            <img
+              src={room.icon}
+              alt={room.name}
+              className="room-image"
+            />
             <h3>{room.name}</h3>
-          </motion.div>
+          </div>
         ))}
       </div>
-
-      <motion.button
-        className="continue-btn"
-        onClick={handleContinue}
-        disabled={!selectedRoom}
-        whileHover={{ scale: selectedRoom ? 1.05 : 1 }}
-      >
-        Continue
-      </motion.button>
     </div>
   );
-}
+};
+
+export default RoomSelect;
+

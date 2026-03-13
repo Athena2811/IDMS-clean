@@ -1,73 +1,120 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import api from "../api";
+import React, { useEffect, useState } from "react";
+import "../styles/ItemSelect.css";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Items() {
-  const { themeId } = useParams();
-  const navigate = useNavigate();
+const API = "http://127.0.0.1:8000/api";
 
+const ItemSelect = () => {
   const [items, setItems] = useState([]);
+  const [materials, setMaterials] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedMaterials, setSelectedMaterials] = useState({});
 
-  // 🔐 AUTH GUARD (CORRECT PLACE)
+  const navigate = useNavigate();
+  const { roomId } = useParams();   // ✅ correct way
+  const roomTypeId = roomId;
+
+  // ✅ Fetch filtered items + materials
   useEffect(() => {
-    if (!localStorage.getItem("access")) {
-      navigate("/login");
-      return;
+    if (!roomTypeId) return;
+
+    // Fetch items filtered by room type
+    fetch(`${API}/items/?room_type=${roomTypeId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setItems(data);
+        } else {
+          setItems([]);
+        }
+      })
+      .catch(() => setItems([]));
+
+    // Fetch materials
+    fetch(`${API}/materials/`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setMaterials(data);
+        } else {
+          setMaterials([]);
+        }
+      })
+      .catch(() => setMaterials([]));
+
+  }, [roomTypeId]);
+
+  // ✅ Toggle furniture
+  const toggleItem = (item) => {
+    if (selectedItems.includes(item.id)) {
+      setSelectedItems(selectedItems.filter(id => id !== item.id));
+    } else {
+      setSelectedItems([...selectedItems, item.id]);
     }
+  };
 
-    api
-      .get(`/items?theme=${themeId}&room_type=1`)
-      .then((res) => setItems(res.data))
-      .catch((err) => console.error(err));
-  }, [themeId, navigate]);
+  // ✅ Select material (one per type)
+  const selectMaterial = (material) => {
+    setSelectedMaterials({
+      ...selectedMaterials,
+      [material.material_type]: material.id
+    });
+  };
 
-  const toggleItem = (id) => {
-    setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
+  const handleNext = () => {
+    navigate("/theme-select", {
+      state: {
+        roomTypeId,
+        selectedItems,
+        selectedMaterials
+      }
+    });
   };
 
   return (
-    
-    <div style={{ padding: "20px" }}>
-      <h2>Select Items</h2>
+    <div className="item-page">
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        {items.map((item) => (
+      <h2>Select Furniture</h2>
+
+      <div className="card-grid">
+        {items.map(item => (
           <div
             key={item.id}
-            onClick={() => toggleItem(item.id)}
-            style={{
-              width: "220px",
-              border: selectedItems.includes(item.id)
-                ? "3px solid green"
-                : "1px solid #ccc",
-              padding: "10px",
-              cursor: "pointer",
-            }}
+            className={`card ${selectedItems.includes(item.id) ? "selected" : ""}`}
+            onClick={() => toggleItem(item)}
           >
-            <img
-              src={`http://127.0.0.1:8000${item.image}`}
-              alt={item.name}
-              style={{ width: "100%", height: "140px", objectFit: "contain" }}
-            />
+            <img src={item.image} alt={item.name} />
             <h3>{item.name}</h3>
-            <p>₹{item.price}</p>
           </div>
         ))}
       </div>
-      <button
-        disabled={!selectedItems.length}
-        onClick={() =>
-          navigate("/generate", {
-            state: { themeId, items: selectedItems },
-          })
-        }
-        style={{ marginTop: "20px" }}
-      >
-        Generate Design
+
+      <h2>Select Materials</h2>
+
+      <div className="card-grid">
+        {materials.map(material => (
+          <div
+            key={material.id}
+            className={`card ${
+              selectedMaterials[material.material_type] === material.id
+                ? "selected"
+                : ""
+            }`}
+            onClick={() => selectMaterial(material)}
+          >
+            <img src={material.preview_image} alt={material.name} />
+            <h3>{material.name}</h3>
+            <p>{material.material_type}</p>
+          </div>
+        ))}
+      </div>
+
+      <button className="next-btn" onClick={handleNext}>
+        Continue to Themes →
       </button>
+
     </div>
   );
-}
+};
+
+export default ItemSelect;

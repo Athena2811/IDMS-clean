@@ -1,94 +1,159 @@
-import { useState } from "react";
-import api from "../api"; // axios instance with token
+import { useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import "../styles/generate.css"
+import FurnitureChatbot from "../components/FurnitureChatbox"
+export default function Generate(){
 
-export default function Generate() {
-  const [themeId, setThemeId] = useState(1);
-  const [items, setItems] = useState([]);
-  const [prompt, setPrompt] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [resultImage, setResultImage] = useState(null);
+const [image,setImage] = useState(null)
+const [suggestion,setSuggestion] = useState("")
+const [loading,setLoading] = useState(false)
 
-  const promptSuggestions = [
-    "Cozy modern minimal bedroom with warm wood tones",
-    "Scandinavian living room with soft daylight",
-    "Modern workspace with neutral colors and plants",
-  ];
+const navigate = useNavigate()
+const location = useLocation()
 
-  const generateDesign = async () => {
-    if (!prompt.trim()) {
-      alert("Please enter a prompt");
-      return;
-    }
+const room = location.state?.roomTypeName
+const theme = location.state?.themeName
 
-    try {
-      setLoading(true);
-      setResultImage(null);
+console.log("Room:", room)
+console.log("Theme:", theme)
 
-      const res = await api.post("/generate-design/", {
-        theme: themeId,
-        client_room: 1,   // using demo room
-        items: items,     // reference items
-        prompt: prompt,
-      });
+const handleGenerate = async ()=>{
 
-      setResultImage("http://127.0.0.1:8000" + res.data.image);
-    } catch (err) {
-      console.error(err);
-      alert("AI generation failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+setLoading(true)
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h2>Generate AI Design</h2>
+try{
 
-      {/* Prompt Suggestions */}
-      <div style={{ marginBottom: "10px" }}>
-        {promptSuggestions.map((text, i) => (
-          <button
-            key={i}
-            onClick={() => setPrompt(text)}
-            style={{ marginRight: "8px", marginBottom: "5px" }}
-          >
-            {text}
-          </button>
-        ))}
-      </div>
+const res = await fetch("http://127.0.0.1:8000/api/generate-design/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem("access")}`
+  },
+  body: JSON.stringify({ room, theme, suggestion })
+})
 
-      {/* Prompt Input */}
-      <textarea
-        placeholder="Describe your room..."
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        rows={4}
-        style={{ width: "100%", marginBottom: "10px" }}
-      />
+const data = await res.json()
 
-      {/* Generate Button */}
-      <button onClick={generateDesign} disabled={loading}>
-        {loading ? "Designing with AI..." : "Generate AI Design"}
-      </button>
+setImage(data.image)
 
-      {/* Loading Message */}
-      {loading && (
-        <p style={{ marginTop: "10px" }}>
-          ✨ AI is creating your interior design…
-        </p>
-      )}
+}catch(err){
 
-      {/* Result Image */}
-      {resultImage && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>AI Generated Design</h3>
-          <img
-            src={resultImage}
-            alt="AI Result"
-            style={{ width: "100%", maxWidth: "600px" }}
-          />
-        </div>
-      )}
-    </div>
-  );
+console.log(err)
+
+}
+
+setLoading(false)
+
+}
+
+const handleDownload = async ()=>{
+
+const response = await fetch(image)
+const blob = await response.blob()
+
+const url = window.URL.createObjectURL(blob)
+
+const link = document.createElement("a")
+link.href = url
+link.download = "InteriorAI.png"
+
+document.body.appendChild(link)
+link.click()
+
+document.body.removeChild(link)
+
+window.URL.revokeObjectURL(url)
+
+navigate("/my-designs")
+
+}
+
+return(
+
+<div className="generate-container">
+
+<h1 className="title">InteriorAI</h1>
+
+<div className="selection-info">
+  <p><strong>Room:</strong> {room}</p>
+  <p><strong>Theme:</strong> {theme}</p>
+</div>
+{!image && !loading && (
+
+<button className="generate-btn" onClick={handleGenerate}>
+Generate Design
+</button>
+
+)}
+
+{loading && (
+
+<div className="loading-section">
+
+<div className="house-loader">
+
+<div className="roof"></div>
+
+<div className="house-row">
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+<div className="house-row">
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+</div>
+
+<p className="loading-text">AI is designing your room...</p>
+
+</div>
+
+)}
+
+{image && !loading && (
+
+<div className="result-card">
+
+<img src={image} alt="design" className="result-image"/>
+
+<div className="action-buttons">
+
+<button onClick={handleDownload}>Download</button>
+<button onClick={handleGenerate}>Regenerate</button>
+
+</div>
+
+<div className="suggest-box">
+
+<input
+placeholder="Suggest changes..."
+value={suggestion}
+onChange={(e)=>setSuggestion(e.target.value)}
+/>
+
+<button onClick={handleGenerate}>Apply</button>
+
+</div>
+<div className="bottom-nav">
+
+<button
+className="designs-btn"
+onClick={()=>navigate("/my-designs")}
+>
+My Designs →
+</button>
+
+</div>
+</div>
+ 
+)}
+<FurnitureChatbot room={room} theme={theme} />
+</div>
+
+)
+
 }

@@ -76,9 +76,11 @@ class RoomMaterial(models.Model):
 
 class Design(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
     theme = models.ForeignKey(Theme, on_delete=models.CASCADE)
     client_room = models.ForeignKey(ClientRoom, on_delete=models.CASCADE)
     prompt = models.TextField()

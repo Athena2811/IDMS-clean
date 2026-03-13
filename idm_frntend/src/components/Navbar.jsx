@@ -1,28 +1,50 @@
 import { useNavigate } from "react-router-dom";
-import "../styles/navbar.css";
+import "../styles/publicNavbar.css";
 
-export default function Navbar() {
-  const navigate = useNavigate();
+export default function Navbar(){
 
-  return (
-  
+const navigate = useNavigate();
+const username = localStorage.getItem("username");
+const logout = ()=>{
+localStorage.removeItem("access");
+localStorage.removeItem("refresh");
 
-    <nav className="navbar">
-      <h2 onClick={() => navigate("/")}>InteriorAI</h2>
+localStorage.removeItem("username");
+navigate("/login");
+};
 
-      <div className="nav-links">
-        <button onClick={() => navigate("/my-designs")}>My Designs</button>
-        <button onClick={() => navigate("/profile")}>Profile</button>
-        <button
-          className="logout"
-          onClick={() => {
-            localStorage.clear();
-            navigate("/login");
-          }}
-        >
-          Logout
-        </button>
-      </div>
-    </nav>
-  );
+return(
+
+<nav className="public-navbar">
+
+<div className="brand-container">
+
+<img src="/logo.png" alt="InteriorAI" className="logo"/>
+
+<h2 className="brand-text">
+Interior<span>AI</span>
+</h2>
+
+</div>
+
+<div className="public-links">
+
+<a href="/room-select">Home</a>
+<a href="/my-designs">My Designs</a>
+<span style={{color:"#c8a96a", fontWeight:"500"}}>
+Hello, {username}
+</span>
+<button
+className="get-started-btn"
+onClick={logout}
+>
+Logout
+</button>
+
+</div>
+
+</nav>
+
+);
+
 }

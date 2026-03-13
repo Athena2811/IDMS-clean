@@ -1,0 +1,76 @@
+.designs-page{
+
+min-height:100vh;
+
+padding:40px 8%;
+
+text-align:center;
+
+background-color:#f3eee9;
+background-image:radial-gradient(#d8cfc5 1px, transparent 1px);
+background-size:22px 22px;
+
+}
+
+.page-title{
+font-size:32px;
+margin-bottom:30px;
+}
+
+.design-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:30px;
+}
+
+.design-card{
+background:white;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+padding:15px;
+}
+
+.design-card img{
+width:100%;
+border-radius:8px;
+}
+
+.card-buttons{
+margin-top:10px;
+display:flex;
+justify-content:space-between;
+}
+
+.download{
+background:#622914;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.delete{
+background:#e74c3c;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+
+
+.create-more{
+margin-top:40px;
+}
+
+.create-more button{
+background:#3a1607;
+color:white;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}

@@ -1,40 +1,136 @@
-.landing-hero {
-  height: calc(100vh - 70px);
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  position: relative;
+.landing-container {
+  font-family: 'Playfair Display', serif;
 }
 
-.overlay {
-  height: 100%;
-  width: 100%;
-  background: rgba(0,0,0,0.45);
+/* ================= HERO SECTION ================= */
+
+.hero-section {
+  height: 100vh;
+  background: url("/interior.jpg") center/cover no-repeat;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  position: relative;
+  padding-top: 75px; /* account for fixed navbar */
+}
+
+.hero-overlay {
+  background: rgba(40, 20, 10, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 70px 90px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fdfaf6;
+  max-width: 850px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hero-overlay h1 {
+  font-size: 50px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+.hero-overlay p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.hero-overlay button {
+  padding: 14px 36px;
+  background: #c8a96a;
+  color: #3e2723;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.hero-overlay button:hover {
+  background: #e6c88a;
+  transform: translateY(-3px);
+}
+
+/* ================= HOW IT WORKS ================= */
+
+.how-section {
+  padding: 100px 10%;
+  background: #f4efe9;
   text-align: center;
 }
 
-.overlay h1 {
-  font-size: 52px;
+.how-section h2 {
+  margin-bottom: 60px;
+  font-size: 36px;
+  color: #5a3a2e;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.step {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 18px;
+  flex: 1;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-8px);
+}
+
+.step h3 {
   margin-bottom: 20px;
+  font-size: 20px;
+  color: #7a4b2c;
 }
 
-.overlay p {
-  font-size: 18px;
-  max-width: 600px;
-  margin-bottom: 30px;
+.step p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
 }
 
-.overlay button {
-  background: #8d5a3c;
-  border: none;
-  padding: 14px 36px;
-  border-radius: 30px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .hero-overlay {
+    padding: 50px 60px;
+  }
+
+  .hero-overlay h1 {
+    font-size: 40px;
+  }
+
+  .steps {
+    flex-direction: column;
+  }
 }
+
+@media (max-width: 600px) {
+  .hero-overlay {
+    padding: 40px 30px;
+  }
+
+  .hero-overlay h1 {
+    font-size: 30px;
+  }
+
+  .hero-overlay p {
+    font-size: 14px;
+  }
+
+  .hero-overlay button {
+    padding: 12px 24px;
+  }
+}
+

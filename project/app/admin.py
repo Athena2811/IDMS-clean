@@ -14,7 +14,10 @@ from .models import (
 admin.site.register(UserProfile)
 admin.site.register(RoomType)
 admin.site.register(Theme)
-admin.site.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    filter_horizontal = ("room_types",)
+
+admin.site.register(Item, ItemAdmin)
 admin.site.register(ClientRoom)
 admin.site.register(AIDesign)
 admin.site.register(SavedDesign)

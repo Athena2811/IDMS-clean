@@ -1,0 +1,84 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4efe9;
+}
+
+.auth-card {
+  background: white;
+  padding: 40px;
+  width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin-bottom: 10px;
+  color: #4b2e2b;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 25px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #7a4b2c;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background-color: #7a4b2c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.auth-card button:hover {
+  background-color: #5f3921;
+}
+
+.switch-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.switch-text span {
+  color: #7a4b2c;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.error-box {
+  background: #ffe6e6;
+  color: #c40000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.success-box {
+  background: #e6ffed;
+  color: #1e7e34;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-size: 13px;
+}

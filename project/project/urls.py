@@ -19,17 +19,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from app.views import add_theme, delete_room, delete_theme, get_user_role
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('api/', include('app.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("api/delete-room/<int:id>/", delete_room),
+
 ]
 if settings.DEBUG:
     

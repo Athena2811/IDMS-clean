@@ -1,0 +1,86 @@
+.public-navbar {
+  width: 100%;
+  height: 80px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 0 8%;
+  box-sizing: border-box;
+backdrop-filter: blur(6px);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #3e2723;
+  color: #fdfaf6;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  border-bottom: 1px solid rgba(200, 169, 106, 0.2);
+}
+
+.public-navbar h2 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-family: serif;
+  cursor: pointer;
+}
+
+.public-links {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.public-links a {
+  text-decoration: none;
+  color: #fdfaf6;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
+
+.public-links a:hover {
+  color: #c8a96a;
+}
+.get-started-btn {
+  background: #c8a96a;
+  color: #3e2723;
+  padding: 10px 26px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.get-started-btn:hover {
+  background: #e6c88a;
+  transform: translateY(-2px);
+}
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 20px; 
+}
+
+
+.logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-text {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: serif;
+  letter-spacing: 1px;
+  color: #fdfaf6;
+}
+
+.brand-text span {
+  color: #c8a96a;
+}

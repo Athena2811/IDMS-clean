@@ -1,91 +1,181 @@
-import { useEffect, useState } from "react";
-import api from "../api";
+import { useEffect, useState } from "react"
+import "../styles/MyDesigns.css"
 
-export default function MyDesigns() {
-  const [designs, setDesigns] = useState([]);
+export default function MyDesigns(){
 
-  useEffect(() => {
-    api.get("/my-designs/")
-      .then((res) => setDesigns(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+const [designs,setDesigns] = useState([])
+const [loading,setLoading] = useState(true)
 
- const downloadImage = async (imageUrl) => {
-  try {
-    const response = await fetch(
-      "http://127.0.0.1:8000" + imageUrl,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
-        },
-      }
-    );
+useEffect(()=>{
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
+fetch("http://127.0.0.1:8000/api/my-designs/",{
+headers:{
+"Authorization":`Bearer ${localStorage.getItem("access")}`
+}
+})
+.then(res=>res.json())
+.then(data=>{
+setDesigns(data)
+setLoading(false)
+})
+.catch(()=>{
+setLoading(false)
+})
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `interior-design-${Date.now()}.jpg`;
-    document.body.appendChild(a);
-    a.click();
+},[])
 
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    console.error("Download failed", err);
-  }
-};
 
-  // ❌ DELETE DESIGN
-  const deleteDesign = (id) => {
-    if (!window.confirm("Delete this design?")) return;
 
-    api.delete(`/delete-design/${id}/`)
-      .then(() => {
-        setDesigns(designs.filter((d) => d.id !== id));
-      })
-      .catch((err) => console.error(err));
-  };
+/* DELETE DESIGN */
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h2>My Designs</h2>
+const deleteDesign = async(id)=>{
 
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-        {designs.map((design) => (
-          <div
-            key={design.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              width: "300px",
-            }}
-          >
-            <img
-              src={`http://127.0.0.1:8000${design.generated_image}`}
-              alt="Design"
-              style={{ width: "100%" }}
-            />
+const res = await fetch(`http://127.0.0.1:8000/api/delete-design/${id}/`,{
+method:"DELETE",
+headers:{
+"Authorization":`Bearer ${localStorage.getItem("access")}`
+}
+})
 
-            <p><b>Prompt:</b> {design.prompt}</p>
-            <p style={{ fontSize: "12px" }}>
-              {new Date(design.created_at).toLocaleString()}
-            </p>
+if(res.ok){
+setDesigns(prev=>prev.filter(d=>d.id!==id))
+}
 
-            <button onClick={() => downloadImage(design.generated_image)}>
-              Download
-            </button>
+}
 
-            <button
-              onClick={() => deleteDesign(design.id)}
-              style={{ marginLeft: "10px", color: "red" }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+
+/* REGENERATE DESIGN */
+
+const regenerateDesign = async(id)=>{
+
+const res = await fetch(`http://127.0.0.1:8000/api/regenerate-design/${id}/`,{
+method:"POST"
+})
+
+const data = await res.json()
+
+setDesigns(prev =>
+prev.map(d =>
+d.id === id
+? {...d,image:data.image + "?t=" + new Date().getTime()}
+: d
+)
+)
+
+}
+
+
+
+/* DOWNLOAD IMAGE */
+
+const downloadImage = async(url)=>{
+
+try{
+
+const response = await fetch(url)
+
+const blob = await response.blob()
+
+const link = document.createElement("a")
+
+link.href = window.URL.createObjectURL(blob)
+
+link.download = "interior-design.png"
+
+document.body.appendChild(link)
+
+link.click()
+
+document.body.removeChild(link)
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
+
+
+if(loading){
+
+return <h2 style={{textAlign:"center"}}>Loading designs...</h2>
+
+}
+
+
+
+return(
+
+<div className="designs-page">
+
+<h2 className="title">My Designs</h2>
+
+<div className="design-grid">
+
+{designs.map((design)=>{
+
+let imageUrl = design.image
+
+/* Fix if backend returns relative path */
+
+if(imageUrl && !imageUrl.startsWith("http")){
+imageUrl = "http://127.0.0.1:8000" + imageUrl
+}
+
+return(
+
+<div className="design-card" key={design.id}>
+
+<img
+src={imageUrl}
+alt="design"
+className="design-image"
+/>
+
+<div className="card-buttons">
+
+<button
+className="download"
+onClick={()=>downloadImage(imageUrl)}
+>
+Download
+</button>
+
+<button
+className="delete"
+onClick={()=>deleteDesign(design.id)}
+>
+Delete
+</button>
+
+
+</div>
+
+</div>
+
+)
+
+})}
+
+</div>
+
+
+
+<div className="create-more">
+
+<button
+onClick={()=>window.location.href="/room-select"}
+>
+Create More Designs
+</button>
+
+</div>
+
+
+</div>
+
+)
+
 }

@@ -1,4 +1,14 @@
 /* PAGE BASE */
+.themes-container {
+  min-height: 100vh;
+  padding: 60px 8%;
+  text-align: center;
+
+  /* Soft wallpaper pattern */
+  background-color: #f3eee9;
+  background-image: radial-gradient(#d8cfc5 1px, transparent 1px);
+  background-size: 22px 22px;
+}
 .themes-wrapper {
   min-height: calc(100vh - 70px);
   background: linear-gradient(to bottom, #f7f2ee, #efe5dc);
@@ -89,4 +99,42 @@
 
 .themes-continue:hover:not(:disabled) {
   background: #3e2723;
+}
+.back-btn{
+
+background:transparent;
+
+border:1px solid #6a4b3a;
+
+color:#6a4b3a;
+
+padding:8px 16px;
+
+border-radius:6px;
+
+font-size:14px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+.back-btn:hover{
+
+background:#6a4b3a;
+
+color:white;
+
+}
+.bottom-nav{
+
+margin-top:40px;
+
+display:flex;
+
+justify-content:flex-start;
+
+padding-left:80px;
+
 }

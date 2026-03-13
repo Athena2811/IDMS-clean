@@ -1,0 +1,382 @@
+.generate-container{
+
+min-height:100vh;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+
+padding-top:60px;
+
+background-color:#f3eee9;
+background-image:radial-gradient(#d8cfc5 1px, transparent 1px);
+background-size:22px 22px;
+
+}
+
+/* TITLE */
+
+.title{
+
+font-size:34px;
+color:#5a3a2e;
+margin-bottom:30px;
+
+}
+
+/* GENERATE BUTTON */
+
+.generate-btn{
+
+background:#46100b;
+color:white;
+
+border:none;
+
+padding:14px 26px;
+font-size:16px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+.generate-btn:hover{
+
+background:#360b07;
+
+}
+
+/* LOADING */
+
+.loading-section{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-top:30px;
+
+}
+
+.ai-loader{
+
+width:45px;
+height:45px;
+
+border:4px solid #eee;
+border-top:4px solid #42120e;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+margin-bottom:10px;
+
+}
+
+@keyframes spin{
+
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+
+}
+
+/* RESULT CARD */
+
+.result-card{
+
+margin-top:20px;
+
+background:white;
+
+padding:22px;
+
+border-radius:12px;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.12);
+
+text-align:center;
+
+}
+
+/* IMAGE */
+
+.result-image{
+
+width:420px;
+max-width:90%;
+
+border-radius:10px;
+
+margin-bottom:15px;
+
+}
+
+/* BUTTON ROW */
+
+.action-buttons{
+
+display:flex;
+gap:12px;
+justify-content:center;
+
+margin-bottom:15px;
+
+}
+
+.action-buttons button{
+
+background:#4a100b;
+
+color:white;
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+.action-buttons button:hover{
+
+background:#490c07;
+
+}
+
+/* SUGGESTION BOX */
+
+.suggest-box{
+
+display:flex;
+gap:10px;
+justify-content:center;
+
+}
+
+.suggest-box input{
+
+padding:10px;
+
+border-radius:6px;
+
+border:1px solid #ddd;
+
+width:220px;
+
+}
+
+.suggest-box button{
+
+background:#390a06;
+
+color:white;
+
+border:none;
+
+padding:10px 16px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+/* AI DESIGN ANIMATION */
+/* LOADING CENTER */
+
+.loading-section{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+margin-top:120px;
+
+}
+
+/* HOUSE LOADER */
+
+.house-loader{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+
+}
+
+/* ROOF */
+
+.roof{
+
+width:0;
+height:0;
+
+border-left:22px solid transparent;
+border-right:22px solid transparent;
+
+border-bottom:22px solid #44130f;
+
+margin-bottom:6px;
+
+animation:roofAppear 1.5s infinite;
+
+}
+
+/* BLOCK ROW */
+
+.house-row{
+
+display:flex;
+gap:4px;
+
+margin-bottom:4px;
+
+}
+
+/* BLOCKS */
+
+.house-row div{
+
+width:14px;
+height:14px;
+
+background:#44130f;
+
+border-radius:3px;
+
+opacity:0;
+
+animation:blockBuild 1.5s infinite;
+
+}
+
+/* DELAYS */
+
+.house-row div:nth-child(1){animation-delay:0.1s;}
+.house-row div:nth-child(2){animation-delay:0.3s;}
+.house-row div:nth-child(3){animation-delay:0.5s;}
+
+.house-row:nth-child(3) div:nth-child(1){animation-delay:0.7s;}
+.house-row:nth-child(3) div:nth-child(2){animation-delay:0.9s;}
+.house-row:nth-child(3) div:nth-child(3){animation-delay:1.1s;}
+
+/* ANIMATIONS */
+
+@keyframes blockBuild{
+
+0%{
+opacity:0;
+transform:scale(0.5);
+}
+
+50%{
+opacity:1;
+transform:scale(1);
+}
+
+100%{
+opacity:0;
+}
+
+}
+
+@keyframes roofAppear{
+
+0%,60%{
+opacity:0;
+}
+
+80%{
+opacity:1;
+}
+
+100%{
+opacity:0;
+}
+
+}
+
+/* TEXT */
+
+.loading-text{
+
+margin-top:14px;
+
+font-size:15px;
+
+color:#6a4b3a;
+
+}
+.bottom-nav{
+
+margin-top:50px;
+
+display:flex;
+
+justify-content:flex-end;
+
+padding:0 80px;
+
+width:100%;
+
+box-sizing:border-box;
+
+}
+
+/* BUTTON */
+
+.designs-btn{
+
+background:#6a4b3a;
+
+color:white;
+
+border:none;
+
+padding:12px 24px;
+
+border-radius:8px;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+.designs-btn:hover{
+
+background:#5a3a2e;
+
+}
+.selection-info{
+display:flex;
+gap:20px;
+justify-content:center;
+margin-top:15px;
+}
+
+.selection-info p{
+background:#f4eee9;
+padding:8px 18px;
+border-radius:20px;
+font-size:15px;
+}
+.selection-info{
+margin-top:10px;
+text-align:center;
+font: size 28px;
+color:#6f4139;
+}
+
+.selection-info p{
+margin:5px 0;
+font-weight:500;
+}
